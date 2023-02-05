@@ -11,8 +11,8 @@ export class NftService {
     @InjectModel(Nft.name) private nftModel: Model<NftDocument>,
   ){}
 
-  async create(walletAddress: string): Promise<NftDocument> {
-      const createdNft = new this.nftModel(walletAddress);
+  async create(createNftDto: CreateNftDto): Promise<NftDocument> {
+      const createdNft = new this.nftModel(createNftDto);
       return createdNft.save();
   }
 
@@ -28,9 +28,7 @@ export class NftService {
     return this.nftModel.findById(id).exec();
   }
 
-  update(id: string, updateNftDto: UpdateNftDto) {   
-    console.log(id, updateNftDto);
-     
+  update(id: string, updateNftDto: UpdateNftDto) {        
     return this.nftModel.findByIdAndUpdate(id, updateNftDto, {new: true})
   }
 

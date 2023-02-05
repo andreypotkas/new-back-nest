@@ -4,11 +4,17 @@ import { UpdateNftDto } from './dto/update-nft.dto';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { IJwtPayload } from 'src/user/interfaces/user.interface';
 import { Request } from 'express';
+import { CreateNftDto } from './dto/create-nft.dto';
 
 
 @Controller('nft')
 export class NftController {
   constructor(private readonly nftService: NftService) {}
+
+  @Post('')
+  async create(@Body() createNftDto: CreateNftDto) {
+    return this.nftService.create(createNftDto);
+  }
 
   @UseGuards(JwtAuthGuard)
   @Get('all')
