@@ -13,9 +13,7 @@ export class UserController {
 
   @Post('login')
   async login(@Body() createUserDto: CreateUserDto) {
-    const user = await this.userService.login(createUserDto.walletAddress);
-    const token = this.userService.createJWT(user);
-    return { token, user};
+    return await this.userService.login(createUserDto.walletAddress);
   }
 
   @UseGuards(JwtAuthGuard)

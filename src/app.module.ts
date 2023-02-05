@@ -7,6 +7,7 @@ import { NftModule } from './nft/nft.module';
 import { SellOfferModule } from './sell-offer/sell-offer.module';
 import { BuyOfferModule } from './buy-offer/buy-offer.module';
 import { NotificationModule } from './notification/notification.module';
+import { EventsGateway } from './websocket/events.gateway';
 
 @Module({
   imports: [
@@ -15,9 +16,10 @@ import { NotificationModule } from './notification/notification.module';
     NftModule,
     SellOfferModule,
     BuyOfferModule,
-    NotificationModule
+    NotificationModule,
+    
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, EventsGateway],
 })
 export class AppModule {}

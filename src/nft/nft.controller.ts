@@ -24,10 +24,11 @@ export class NftController {
 
   @UseGuards(JwtAuthGuard)
   @Get('my')
-  findMy(@Req() req: Request) {
+  async findMy(@Req() req: Request) {
       // wallet address and userId extracted from jwt 
-      const user = req.user as IJwtPayload;
-    return this.nftService.findMy(user.walletAddress);
+    const user = req.user as IJwtPayload;
+
+    return await this.nftService.findMy(user.walletAddress);;
   }
 
   @UseGuards(JwtAuthGuard)

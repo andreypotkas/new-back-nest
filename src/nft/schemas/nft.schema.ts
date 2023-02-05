@@ -1,15 +1,15 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 
 export type NftDocument = HydratedDocument<Nft>;
 
 @Schema(({ timestamps: true }))
 export class Nft {
   @Prop()
-  ownerAddress: string; // Add prop front part
+  owner: string; // Add prop front part
 
   @Prop()
-  autherAddress: string;
+  issuer: string;
 
   @Prop()
   artistName: string;

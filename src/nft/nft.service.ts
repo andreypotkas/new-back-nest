@@ -20,8 +20,8 @@ export class NftService {
     return this.nftModel.find().exec();
   }
 
-  findMy(autherAddress: string): Promise<NftDocument[]> {
-    return this.nftModel.find({autherAddress}).exec();
+  findMy(autherAddress: string) {
+    return this.nftModel.find({ $and:[{owner: autherAddress}, {issuer: autherAddress}]}).exec();
   }
 
   findOne(id: string): Promise<NftDocument> {    

@@ -21,7 +21,7 @@ export class NotificationService {
   }
 
   findMy(autherAddress: string): Promise<NotificationDocument[]> {
-    return this.notificationModel.find({autherAddress}).exec();
+    return this.notificationModel.find({receiver: autherAddress}).exec();
   }
 
   findOne(id: string): Promise<NotificationDocument> {    

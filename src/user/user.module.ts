@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './schemas/user.schema';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from 'src/auth/auth.strategy';
+import { NotificationModule } from 'src/notification/notification.module';
 require("dotenv").config();
 
 @Module({
@@ -14,7 +15,9 @@ require("dotenv").config();
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '36000s' },
     }),
+    NotificationModule
   ],
+  exports:[JwtModule],
   controllers: [UserController],
   providers: [UserService, JwtStrategy]
 })

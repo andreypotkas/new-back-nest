@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { NotificationService } from 'src/notification/notification.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './schemas/user.schema';
 
@@ -9,17 +10,28 @@ import { User, UserDocument } from './schemas/user.schema';
 export class UserService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private notificationService: NotificationService
   ){}
   
-  async login(walletAddress: string): Promise<UserDocument> {
-    const user = this.findOne(walletAddress);
+  async login(walletAddress: string): Promise<any> {
 
-    return user ? user : this.create(walletAddress);
+    const user = await this.findOne(walletAddress);
+    
+    if (user) {
+      const token = this.createJWT(user);
+      const notifications = await this.notificationService.findMy(walletAddress);
+      return { user, ...token, notifications};
+    }
+
+    const newUser = await this.create(walletAddress);
+    const token = this.createJWT(newUser);
+
+    return { user: newUser, ...token, notifications:[]}
   }
 
-  async create(walletAddress: string): Promise<UserDocument> {
-      const createdUser = new this.userModel(walletAddress);
+  async create(walletAddress: string): Promise<UserDocument> {    
+      const createdUser = new this.userModel({walletAddress});      
       return createdUser.save();
   }
 

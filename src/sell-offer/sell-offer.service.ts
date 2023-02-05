@@ -16,7 +16,7 @@ export class SellOfferService {
   }
 
   findAll(): Promise<SellOfferDocument[]> {
-    return this.sellOfferModel.find().exec();
+    return this.sellOfferModel.find().populate('nft').exec();
   }
 
   findOne(id: string): Promise<SellOfferDocument> {    
